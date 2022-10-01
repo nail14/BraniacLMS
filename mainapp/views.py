@@ -1,15 +1,12 @@
-from django.http import HttpResponseNotFound
 from django.shortcuts import HttpResponse, render
 from django.views.generic import TemplateView, ListView
-from django.core.paginator import Paginator
 from datetime import datetime
-from .models import News
+from django.core.paginator import Paginator
+from mainapp.models import News
 from django.shortcuts import get_object_or_404
 
 
 # def hello_view(request):
-
-
 #     return HttpResponse("Hello world")
 
 
@@ -41,15 +38,17 @@ class NewsPageView(TemplateView):
     paginated_by = 3
 
     def get_context_data(self, **kwargs):
-          page_number = self.request.GET.get(
-              'page',
-              1
-          )
-          paginator = Paginator(News.objects.all(), self.paginated_by)
-          page = paginator.get_page(page_number)
-          context = super().get_context_data(**kwargs)
-          context['page'] = page
-          return context
+        page_number = self.request.GET.get(
+            'page',
+            1
+        )
+        paginator = Paginator(News.objects.all(), self.paginated_by)
+        page = paginator.get_page(page_number)
+
+        context = super().get_context_data(**kwargs)
+
+        context['page'] = page
+        return context
 
 
 class NewsDetailsPageView(TemplateView):
@@ -65,25 +64,3 @@ class NewsDetailsPageView(TemplateView):
         #     return HttpResponseNotFound()
         context['news_obj'] = get_object_or_404(News, pk=pk)
         return context
-
-
-
-        # try:
-        #     context['news_obj'] = News.objects.get(pk=pk)
-        # except Exception:
-        #     return HttpResponseNotFound("Not Found")
-
-    #     context = super().get_context_data(**kwargs)
-    #
-    #     # context['news_title'] = 'Новость'
-    #     # context['description'] = 'Предварительное описание новости'
-    #     # context['news_date'] = datetime.now()
-    #     context['news'] = News.objects.all()
-    #     # context['range'] = range(5)
-    #     return context
-
-    # def get_context_data(self, pk=None, **kwargs):
-    #     context = super().get_context_data(pk=pk, **kwargs)
-    #
-    #     context["news_object"] = get_object_or_404(mainapp_models.News, pk=pk)
-    #     return context
