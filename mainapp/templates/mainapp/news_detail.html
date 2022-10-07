@@ -1,4 +1,4 @@
-{% extends 'mainapp/base.html' %}
+{% extends 'base.html' %}
 
 {% block title %}
 {{ object.title|default:"Новости" }}
@@ -13,14 +13,12 @@
         <p class="card-text">
           {{ object.body }}
         </p>
-          <a href="{% url 'mainapp:news' %}" class="btn btn-primary">Назад</a>
-{#        <a href="{% url 'mainapp:news_list' %}" class="btn btn-primary">Назад</a>#}
+        <a href="{% url 'mainapp:news' %}" class="btn btn-primary">Назад</a>
       </div>
     </div>
   </div>
 </div>
 {% endblock content %}
-
 
 
 {#{% extends 'mainapp/base.html' %}#}

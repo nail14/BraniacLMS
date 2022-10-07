@@ -81,7 +81,7 @@ class CourseFeedbackFormProcessView(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         self.object = form.save()
-        rendered_card = render_to_string("mainapp/i", context={"item": self.object})
+        rendered_card = render_to_string("mainapp/feedback_card.html", context={"item": self.object})
         return JsonResponse({"card": rendered_card})
 # mainapp/includes/feedback_card.html   templates/includes/feedback_card.html
 

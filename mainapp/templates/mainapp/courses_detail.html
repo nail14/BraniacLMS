@@ -1,4 +1,4 @@
-{% extends 'mainapp/base.html' %}
+{% extends 'base.html' %}
 {% load static markdownify crispy_forms_tags %}
 
 {% block title %}
@@ -21,7 +21,7 @@
       </div>
       <div class="col-12 align-self-end">
         <p>
-          <small>Преподаватели</small><br>
+          <small>РџСЂРµРїРѕРґР°РІР°С‚РµР»Рё</small><br>
           {% for item in teachers %}
           {{ item.name_second }} {{ item.name_first }}{% if forloop.last %}{% else %},{% endif %}
           {% endfor %}
@@ -36,22 +36,22 @@
       </div>
       <div class="col-12 align-self-end d-none d-md-block">
         <p class="text-center mt-2">
-          <small class="text-uppercase">цена</small><br>
+          <small class="text-uppercase">С†РµРЅР°</small><br>
           <span style="font-size: 30pt;">
             {{ course_object.cost}}
           </span><br>
-          <a href="#" class="btn btn-outline-primary btn-block" role="button">Купить</a>
+          <a href="#" class="btn btn-outline-primary btn-block" role="button">РљСѓРїРёС‚СЊ</a>
         </p>
       </div>
     </div>
   </div>
   <div class="col-sm-12 d-md-none order-3 order-sm-3">
     <p class="text-center">
-      <small class="text-uppercase">цена</small><br>
+      <small class="text-uppercase">С†РµРЅР°</small><br>
       <span style="font-size: 30pt;">
         {{ course_object.cost}}
       </span><br>
-      <a href="#" class="btn btn-outline-primary btn-block" role="button">Купить</a>
+      <a href="#" class="btn btn-outline-primary btn-block" role="button">РљСѓРїРёС‚СЊ</a>
     </p>
   </div>
 </div>
@@ -89,13 +89,13 @@
   {% endfor %}
 
 </div>
-<h3>Отзывы</h3>
+<h3>РћС‚Р·С‹РІС‹</h3>
 
 <div id="feedback_list">
   {% if feedback_list %}
   {% for item in feedback_list %}
 {#  {% include 'mainapp/includes/feedback_card.html' %}#}
-  {% include 'mainapp/feedback_card.html' %}
+  {% include 'mainapp/includes/feedback_card.html' %}
   {% endfor %}
   {% else %}
   <p>
@@ -107,15 +107,15 @@
 {% if feedback_form %}
 <div class="card" id="cardForm">
   <div class="card-body">
-    <h5 class="card-title">Добавить отзыв</h5>
-    <h6 class="card-subtitle mb-2 text-muted">Вы ещё не оставляли отзыв к этому
-      курсу</h6>
+    <h5 class="card-title">Р”РѕР±Р°РІРёС‚СЊ РѕС‚Р·С‹РІ</h5>
+    <h6 class="card-subtitle mb-2 text-muted">Р’С‹ РµС‰С‘ РЅРµ РѕСЃС‚Р°РІР»СЏР»Рё РѕС‚Р·С‹РІ Рє СЌС‚РѕРјСѓ
+      РєСѓСЂСЃСѓ</h6>
     <p class="card-text">
     <form action="{% url 'mainapp:course_feedback' %}" method="POST" id="feedbackForm">
       {% csrf_token %}
       {{ feedback_form|crispy }}
     </form>
-    <button id="feedbackSubmit" class="btn btn-primary btn-block">Отправить</button>
+    <button id="feedbackSubmit" class="btn btn-primary btn-block">РћС‚РїСЂР°РІРёС‚СЊ</button>
     </p>
   </div>
 </div>
@@ -152,7 +152,6 @@
 
 
 
-
 {##}
 {#<!-- saved from url=(0094)https://gbcdn.mrgcdn.ru/uploads/asset/4482369/attachment/26167fe26089438bb4dffcdbcc1918a6.html -->#}
 {#<html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"></head><body>{% extends 'base.html' %}#}
@@ -178,7 +177,7 @@
 {#            </div>#}
 {#            <div class="col-12 align-self-end">#}
 {#                <p>#}
-{#                    <small>Преподаватели</small><br>#}
+{#                    <small>пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ</small><br>#}
 {#                    {% for item in teachers %}#}
 {#                    {{ item.name_second }} {{ item.name_first }}{% if forloop.last %}{% else %},{% endif %}#}
 {#                    {% endfor %}#}
@@ -193,22 +192,22 @@
 {#            </div>#}
 {#            <div class="col-12 align-self-end d-none d-md-block">#}
 {#                <p class="text-center mt-2">#}
-{#                    <small class="text-uppercase">цена</small><br>#}
+{#                    <small class="text-uppercase">пїЅпїЅпїЅпїЅ</small><br>#}
 {#                    <span style="font-size: 30pt;">#}
 {#                        {{ course_object.cost}}#}
 {#                    </span><br>#}
-{#                    <a href="https://gbcdn.mrgcdn.ru/uploads/asset/4482369/attachment/26167fe26089438bb4dffcdbcc1918a6.html#" class="btn btn-outline-primary btn-block" role="button">Купить</a>#}
+{#                    <a href="https://gbcdn.mrgcdn.ru/uploads/asset/4482369/attachment/26167fe26089438bb4dffcdbcc1918a6.html#" class="btn btn-outline-primary btn-block" role="button">пїЅпїЅпїЅпїЅпїЅпїЅ</a>#}
 {#                </p>#}
 {#            </div>#}
 {#        </div>#}
 {#    </div>#}
 {#    <div class="col-sm-12 d-md-none order-3 order-sm-3">#}
 {#        <p class="text-center">#}
-{#            <small class="text-uppercase">цена</small><br>#}
+{#            <small class="text-uppercase">пїЅпїЅпїЅпїЅ</small><br>#}
 {#            <span style="font-size: 30pt;">#}
 {#                {{ course_object.cost}}#}
 {#            </span><br>#}
-{#            <a href="https://gbcdn.mrgcdn.ru/uploads/asset/4482369/attachment/26167fe26089438bb4dffcdbcc1918a6.html#" class="btn btn-outline-primary btn-block" role="button">Купить</a>#}
+{#            <a href="https://gbcdn.mrgcdn.ru/uploads/asset/4482369/attachment/26167fe26089438bb4dffcdbcc1918a6.html#" class="btn btn-outline-primary btn-block" role="button">пїЅпїЅпїЅпїЅпїЅпїЅ</a>#}
 {#        </p>#}
 {#    </div>#}
 {#</div>#}
