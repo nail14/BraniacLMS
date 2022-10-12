@@ -54,6 +54,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "django.middleware.locale.LocaleMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -161,10 +162,10 @@ STATICFILES_DIRS = [
 # Media files
 MEDIA_URL = "/media/"
 
-MEDIA_ROOT = [BASE_DIR / "media"]
+MEDIA_ROOT = BASE_DIR / "media"
 
-SOCIAL_AUTH_GITHUB_KEY = "8fbed45c1b99068f2965"
-SOCIAL_AUTH_GITHUB_SECRET = "6f3d185a6e732e4ed27204db305e1152343c8523"
+SOCIAL_AUTH_GITHUB_KEY = "577037078c081320d574"
+SOCIAL_AUTH_GITHUB_SECRET = "ec7ef6f936bdc97944d9f10ee35c40411104abe2"
 
 CRISPY_TEMPLATE_PACK = "bootstrap4"
 
@@ -174,9 +175,7 @@ LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
     "formatters": {
-        "console": {
-            "format": "[%(asctime)s] %(levelname)s %(name)s (%(lineno)d) %(message)s"
-        },
+        "console": {"format": "[%(asctime)s] %(levelname)s %(name)s (%(lineno)d) %(message)s"},
     },
     "handlers": {
         "file": {
@@ -196,7 +195,6 @@ LOGGING = {
     },
 }
 
-# In the end of file
 CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
@@ -229,3 +227,8 @@ CELERY_RESULT_BACKEND = "redis://localhost:6379"
 # Email as files for debug
 EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
 EMAIL_FILE_PATH = "var/email-messages/"
+
+LOCALE_PATHS = [BASE_DIR / "locale"]
+
+SELENIUM_DRIVER_PATH_FF = BASE_DIR / "var" / "selenium" / "geckodriver"
+
