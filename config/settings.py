@@ -9,11 +9,13 @@ https://docs.djangoproject.com/en/3.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
-
+import os
 from pathlib import Path
+from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+load_dotenv(BASE_DIR / '.env')
 
 
 # Quick-start development settings - unsuitable for production
@@ -23,9 +25,17 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure-pd&w016(#3#_th*$r03ak@%e^o(6qhua=#-#b2oxvt_y1dg(em"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = True if os.getenv('DEBUG') == 'True' else False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
+
+ENV_TYPE=os.getenv('ENV_TYPE', 'prod')
+
+# if DEBUG:
+#     INTERNAL_IPS = [
+#         "192.168.1.4",
+#         "127.0.0.1",
+#     ]
 
 
 # Application definition
@@ -41,17 +51,20 @@ INSTALLED_APPS = [
     "social_django",
     "mainapp",
     "authapp",
-    "media",
+    "crispy_forms",
+    "debug_toolbar",
 ]
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "django.middleware.locale.LocaleMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
 ]
 
 ROOT_URLCONF = "config.urls"
@@ -81,16 +94,28 @@ TEMPLATES = [
 WSGI_APPLICATION = "config.wsgi.application"
 
 
+
+
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
-
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+if ENV_TYPE == 'local':
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "db.sqlite3",
+        }
     }
-}
-
+else:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.postgresql_psycopg2",
+            "NAME": 'lms',
+            "USER": 'postgres',
+            # "USER": 'django',
+            # "HOST": 'localhost',
+            # "PASSWORD": '88888888'
+        }
+    }
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
@@ -140,20 +165,89 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = "/static/"
+if ENV_TYPE == 'local':
+    STATICFILES_DIRS = [
+        BASE_DIR / "static",
+    ]
+else:
+    STATIC_ROOT = BASE_DIR / 'static'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-STATICFILES_DIRS = [
-    BASE_DIR / "static",
-]
 
 # Media files
 MEDIA_URL = "/media/"
 
-MEDIA_ROOT = [BASE_DIR / "media"]
+MEDIA_ROOT = BASE_DIR / "media"
 
-SOCIAL_AUTH_GITHUB_KEY = "8fbed45c1b99068f2965"
-SOCIAL_AUTH_GITHUB_SECRET = "71e7a583c4a6edc17d7ddfbb4c18a3d627532c10"
+SOCIAL_AUTH_GITHUB_KEY = os.getenv('GITHUB_KEY')
+SOCIAL_AUTH_GITHUB_SECRET = os.getenv('GITHUB_SECRET')
+
+CRISPY_TEMPLATE_PACK = "bootstrap4"
+
+LOG_FILE = BASE_DIR / "var" / "log" / "main_log.log"
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "console": {"format": "[%(asctime)s] %(levelname)s %(name)s (%(lineno)d) %(message)s"},
+    },
+    "handlers": {
+        "file": {
+            "level": "DEBUG",
+            "class": "logging.FileHandler",
+            "filename": LOG_FILE,
+            "formatter": "console",
+        },
+        "console": {"class": "logging.StreamHandler", "formatter": "console"},
+    },
+    "loggers": {
+        "django": {"level": "INFO", "handlers": ["console"]},
+        "mainapp": {
+            "level": "DEBUG",
+            "handlers": ["file"],
+        },
+    },
+}
+
+# CACHES = {
+#     "default": {
+#         "BACKEND": "django_redis.cache.RedisCache",
+#         "LOCATION": "redis://127.0.0.1:6379",
+#         "OPTIONS": {
+#             "CLIENT_CLASS": "django_redis.client.DefaultClient",
+#         },
+#     }
+# }
+
+CELERY_BROKER_URL = "redis://localhost:6379"
+CELERY_RESULT_BACKEND = "redis://localhost:6379"
+
+
+# Read about sending email:
+#   https://docs.djangoproject.com/en/3.2/topics/email/
+
+# Full list of email settings:
+#   https://docs.djangoproject.com/en/3.2/ref/settings/#email
+# EMAIL_HOST = "localhost"
+# EMAIL_PORT = "25"
+
+# For debugging: python -m smtpd -n -c DebuggingServer localhost:25
+# EMAIL_HOST_USER = "django@geekshop.local"
+# EMAIL_HOST_PASSWORD = "geekshop"
+# EMAIL_USE_SSL = False
+# If server support TLS:
+# EMAIL_USE_TLS = True
+
+# Email as files for debug
+EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
+EMAIL_FILE_PATH = "var/email-messages/"
+
+LOCALE_PATHS = [BASE_DIR / "locale"]
+
+SELENIUM_DRIVER_PATH_FF = BASE_DIR / "var" / "selenium" / "geckodriver"
+
